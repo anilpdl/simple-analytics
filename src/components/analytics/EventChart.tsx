@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from 'react';
+import { AppAnalytics } from '@/lib/analytics';
+import { useEffect } from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 
 interface UserEvent {
@@ -14,12 +17,31 @@ interface EventData {
     events: UserEvent[];
 }
 
-interface EventChartProps {
-    data: EventData[];
-    isLoading?: boolean;
-}
+const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString('en-US', {
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+    });
+};
 
-const EventChart = ({ data, isLoading = false }: EventChartProps) => {
+const EventChart = () => {
+    const [data, setData] = useState<EventData[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await AppAnalytics.getChartData();
+            setData(data);
+            setIsLoading(false);
+        };
+
+        fetchData();
+    }, []);
+
     if (isLoading) {
         return (
             <div className="h-[300px] w-full animate-pulse bg-gray-100 rounded-lg" />
@@ -35,7 +57,7 @@ const EventChart = ({ data, isLoading = false }: EventChartProps) => {
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="timestamp" />
+                    <XAxis dataKey="timestamp" tickFormatter={formatTimestamp} />
                     <YAxis />
                     <Tooltip
                         content={({ active, payload }) => {
@@ -44,7 +66,7 @@ const EventChart = ({ data, isLoading = false }: EventChartProps) => {
 
                                 return (
                                     <div className="bg-white p-2 border border-gray-200 rounded shadow-lg">
-                                        <p className="font-semibold">{`Date: ${payload[0].payload.timestamp}`}</p>
+                                        <p className="font-semibold">{`Date: ${formatTimestamp(payload[0].payload.timestamp)}`}</p>
                                         {events.map((event: UserEvent) => (
                                             <p key={event.id} className="text-sm">{`${event.type}: ${event.count}`}</p>
                                         ))}

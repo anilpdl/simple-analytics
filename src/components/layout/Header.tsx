@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
+
+import Link from '@/components/ui/link/Link';
+import Button from '@/components/ui/button/Button';
 
 const Navigation = () => {
     const router = useRouter();
@@ -11,7 +13,7 @@ const Navigation = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 
-    const handleLogout = (e) => {
+    const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         setIsDropdownOpen(false);
         signOut();
@@ -35,15 +37,15 @@ const Navigation = () => {
         return (
             <nav className="nav">
                 <div className="relative inline-block">
-                    <button
+                    <Button
                         className="px-2 py-1 hover:text-gray-600 focus:outline-none"
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                             e.stopPropagation();
                             setIsDropdownOpen(!isDropdownOpen);
                         }}
                     >
                         My Account
-                    </button>
+                    </Button>
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
                             <Link
@@ -53,12 +55,12 @@ const Navigation = () => {
                             >
                                 My Profile
                             </Link>
-                            <button
+                            <Button
                                 onClick={handleLogout}
                                 className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             >
                                 Logout
-                            </button>
+                            </Button>
                         </div>
                     )}
                 </div>

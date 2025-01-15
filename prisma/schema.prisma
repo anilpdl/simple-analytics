@@ -17,6 +17,7 @@ model User {
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
+  events        Event[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -75,4 +76,16 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([userId, credentialID])
+}
+ 
+model Event {
+  id        String   @id @default(cuid())
+  type      String
+  details   String?
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  path      String 
+  timestamp DateTime @default(now())
+
+  @@index([userId, type, timestamp])
 }

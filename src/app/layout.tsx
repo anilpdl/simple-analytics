@@ -8,6 +8,9 @@ import Footer from "@/components/layout/Footer";
 import "@/styles/globals.css";
 import "@/styles/layout.css";
 
+import PageTracker from "@/components/analytics/PageTracker";
+import TrackTestButton from "@/components/analytics/TrackTestButton";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,7 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: { title?: string, description?: string } & React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -36,11 +39,17 @@ export default function RootLayout({
         <SessionProvider>
           <Header />
           <main className="main-content">
-            {children}
+            <>
+              <div className="">
+                <TrackTestButton />
+              </div>
+              {children}
+            </>
           </main>
           <Footer />
         </SessionProvider>
+        <PageTracker />
       </body>
-    </html>
+    </html >
   );
 }

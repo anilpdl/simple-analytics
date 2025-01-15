@@ -1,6 +1,8 @@
 "use client"
 import { useSession, signIn } from 'next-auth/react';
 
+import Button from './Button';
+
 const SignIn = ({ title = "Signin with Google" }: { title?: string }) => {
     const { data: session } = useSession();
 
@@ -13,9 +15,9 @@ const SignIn = ({ title = "Signin with Google" }: { title?: string }) => {
     }
 
     return (
-        <button onClick={handleSignIn} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+        <Button onClick={handleSignIn} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
             {title}
-        </button>
+        </Button>
     )
 }
 

@@ -1,3 +1,10 @@
+"use client";
+
+import { useEffect } from "react";
+
+import { AppAnalytics } from "@/lib/analytics";
+import { useState } from "react";
+
 export interface Event {
     id: string;
     type: string;
@@ -5,12 +12,20 @@ export interface Event {
     details: string;
 }
 
-interface EventTableProps {
-    events: Event[];
-    isLoading?: boolean;
-}
+const EventTable = () => {
+    const [events, setEvents] = useState<Event[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-const EventTable = ({ events, isLoading = false }: EventTableProps) => {
+    useEffect(() => {
+        const fetchEvents = async () => {
+            const events = await AppAnalytics.getEvents();
+            setEvents(events);
+            setIsLoading(false);
+        };
+
+        fetchEvents();
+    }, []);
+
     if (isLoading) {
         return (
             <div className="w-full space-y-1">
@@ -37,7 +52,11 @@ const EventTable = ({ events, isLoading = false }: EventTableProps) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                {events.length === 0 ? <tbody className="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td className="px-6 text-center py-4 whitespace-nowrap text-sm font-medium text-gray-900" colSpan={3}>No events found</td>
+                    </tr>
+                </tbody> : <tbody className="bg-white divide-y divide-gray-200">
                     {events.map((event) => (
                         <tr key={event.id}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -46,12 +65,12 @@ const EventTable = ({ events, isLoading = false }: EventTableProps) => {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {new Date(event.timestamp).toLocaleString()}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
                                 {event.details}
                             </td>
                         </tr>
                     ))}
-                </tbody>
+                </tbody>}
             </table>
         </div>
     );
