@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Simple Analytics Dashboard using Next.js, NextAuth, Prisma, and Recharts
 
-## Getting Started
+## Project Overview
+A brief description of what the project is about.
 
-First, run the development server:
+## Prerequisites
+- Node.js
+- npm
+- postgres (if using local database)
 
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd <project-directory>
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+## Getting Google OAuth Credentials
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+4. Go to Credentials → Create Credentials → OAuth Client ID
+5. Configure the OAuth consent screen
+6. Create credentials and copy the Client ID and Client Secret
+
+## Generating AUTH_SECRET
+1. Run the following command to generate a random secret key:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx auth secret
+```
+2. Copy the generated secret key and paste it into the `.env` file as the `AUTH_SECRET` variable.
+
+## Configuration
+- Copy `.example.env` to `.env` and update the environment variables as needed.
+```
+AUTH_SECRET= # Your JWT secret key for NextAuth.js
+AUTH_GOOGLE_ID= # Google OAuth Client ID
+AUTH_GOOGLE_SECRET= # Google OAuth Client Secret
+NEXTAUTH_URL=http://localhost:3000 # Your application URL (e.g., http://localhost:3000 for development)
+DATABASE_URL="postgresql://user:password@localhost:5432/db_name" # Your database connection string
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Database Setup
+- Ensure Prisma is set up and migrate the database:
+  ```bash
+  npx prisma migrate dev
+  ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Scripts
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the project for production.
+- `npm run start`: Starts the production server.
