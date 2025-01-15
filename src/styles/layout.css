@@ -1,0 +1,51 @@
+.header {
+  @apply fixed top-0 left-0 right-0 bg-white border-b z-10;
+}
+
+.header-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between;
+}
+
+.logo {
+  @apply text-xl font-bold text-gray-900;
+}
+
+.nav {
+  @apply hidden sm:flex space-x-8;
+}
+
+.nav a {
+  @apply text-gray-600 hover:text-gray-900 transition-colors;
+}
+
+.footer {
+  @apply bg-gray-50 border-t mt-auto;
+}
+
+.footer-container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row justify-between items-center;
+}
+
+.footer-links {
+  @apply flex space-x-6 mt-4 sm:mt-0;
+}
+
+.footer-links a {
+  @apply text-gray-600 hover:text-gray-900 transition-colors;
+}
+
+/* Mobile menu styles */
+@media (max-width: 640px) {
+  .nav {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t py-4 px-4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    text-align: center;
+  }
+}
+
+/* Main content padding to account for fixed header and mobile nav */
+.main-content {
+  @apply pt-16 pb-20 sm:pb-0 min-h-screen flex flex-col;
+}
