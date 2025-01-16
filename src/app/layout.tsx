@@ -9,7 +9,6 @@ import "@/styles/globals.css";
 import "@/styles/layout.css";
 
 import PageTracker from "@/components/analytics/PageTracker";
-import TrackTestButton from "@/components/analytics/TrackTestButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,9 +39,6 @@ export default function RootLayout({
           <Header />
           <main className="main-content">
             <>
-              <div className="">
-                <TrackTestButton />
-              </div>
               {children}
             </>
           </main>

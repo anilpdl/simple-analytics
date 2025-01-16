@@ -31,7 +31,7 @@ export class AppAnalytics {
 
     public static async getEvents() {
         try {
-            const response = await fetch('/api/events');
+            const response = await fetch('/api/events?limit=10');
             const events = await response.json();
 
             return events;
